@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "firma: manca il parametro 'docente/laboratorio/matricola'" >&2
+    exit 1
+fi
+eval $(
+HOME="$HOME/labprog/$(echo $1 | cut -d/ -f2)"
+cat <<EOF | python 2>&1
+# -*- coding: utf-8 -*-
+from urllib2 import urlopen, HTTPError
+
+try:
+    data = urlopen( 'http://reaper.srv.di.unimi.it/tm/$1' ).read()
+except HTTPError:
+    print 'echo "firma: il laboratorio richiesto non è ancora stato pubblicato"'
+else:
+    exec data
+EOF
+)

@@ -1,0 +1,16 @@
+#!/bin/bash -e
+
+echocol() { echo -e "\033[31m$@...\033[0m " >&2; }
+
+echocol "Setup dirs"
+
+mkdir -p ./release
+rm -rf ./release/*.tgz
+
+echocol "Downloading sf $last_release"
+last_release_url=$(curl -sLo /dev/null -w '%{url_effective}' "https://github.com/scythe-suite/sim-fun-i/releases/latest")
+last_release=${last_release_url##*/}
+curl -o ./labprog/bin/sf -#L https://github.com/scythe-suite/sim-fun-i/releases/download/$last_release/sf
+
+echocol "Preparing release tar"
+tar -C labprog -zcvf ./release/labprog-tools.tgz .

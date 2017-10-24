@@ -1,0 +1,31 @@
+#!/bin/bash
+
+echocol() { echo -e "\033[31m$@...\033[0m " >&2; }
+
+last_release_url=$(curl -sLo /dev/null -w '%{url_effective}' "https://github.com/mapio/labprog-tools/releases/latest")
+last_release=${last_release_url##*/}
+
+DEST_DIR="$HOME/.labprog-tools"
+
+echocol "Scarico la versione $last_release di labprog-tools"
+
+yes | rm -rf "${DEST_DIR}.new"
+mkdir -p "${DEST_DIR}.new"
+curl -#L https://github.com/mapio/labprog-tools/releases/download/$last_release/labprog-tools.tgz | tar -C "${DEST_DIR}.new" -zxf -
+
+echocol "Eseguo l'aggiornamento"
+
+UPDATE_SCRIPT=$(cat <<EOF
+if [ -r "${DEST_DIR}.new/pre-flight" ]; then
+    source "${DEST_DIR}.new/pre-flight"
+fi
+yes | rm -rf "${DEST_DIR}"
+mv "${DEST_DIR}.new" "$DEST_DIR"
+if [ -r "${DEST_DIR}/post-flight" ]; then
+    source "${DEST_DIR}/post-flight"
+fi
+echo -e "\033[31mAggiornamento eseguito con successo...\033[0m " >&2
+EOF
+)
+
+exec bash -c "$UPDATE_SCRIPT"

@@ -1,0 +1,17 @@
+rc="$HOME/.bashrc"
+jars="$HOME/.labprog-jars"
+
+if grep -q "### labprog-firma (non cancellare questa riga e le seguenti)" "$rc"; then
+    echo -e "\trimozione vecchia versione del comando firma"
+    sed -i  '/### labprog-firma (non cancellare questa riga e le seguenti)/,/### labprog-firma (fine/d' "$rc"
+fi
+
+if grep -q "### labprog-tools (non cancellare questa riga)" "$rc"; then
+    echo -e "\trimuozione vecchia versione dei labprog-tools"
+    sed -i  '/### labprog-tools/ d' "$rc"
+fi
+
+if [ -d "$jars" ]; then
+    echo -e "\trimozione vecchia versione della libreria j4im"
+    yes | rm -rf "$jars"
+fi
