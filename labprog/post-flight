@@ -6,12 +6,14 @@ chmod a+rx "$HOME/.labprog-tools/bin/"*
 
 if [ -d "$HOME/labprog/171020/bin" ]; then
     echo -e "\triconfigurazione del laboratorio 171020"
+    chmod -R u+w "$HOME/labprog/171020/bin"
     mv "$HOME/labprog/171020/bin/.tm" "$HOME/labprog/171020/.tm"
     yes | rm -rf "$HOME/labprog/171020/bin" "$HOME/labprog/171020/"*.html
 fi
 
 if [ -d "$HOME/labprog/171023/bin" ]; then
     echo -e "\triconfigurazione del laboratorio 171023"
+    chmod -R u+w "$HOME/labprog/171023/bin"
     mv "$HOME/labprog/171023/bin/.tm" "$HOME/labprog/171023/.tm"
     yes | rm -rf "$HOME/labprog/171023/bin" "$HOME/labprog/171023/"*.html
 fi
