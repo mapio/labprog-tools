@@ -1,0 +1,5 @@
+#!/bin/bash
+
+unset rgit
+./bin/mkdist
+ gh-release create mapio/labprog-tools $1
