@@ -5,10 +5,11 @@ fi
 
 up_tm() {
     cur=$(pwd -P)
-    while [ ! -z $cur ] && [ ! -x "$cur/.tm" ]; do
+    while [ ! -z $cur ] && [ ! -r "$cur/.tm" ]; do
         cur=${cur%/*}
     done
-    if [ -x "$cur/.tm" ]; then
+    if [ -r "$cur/.tm" ]; then
+        chmod u+x "$cur/.tm"
         "$cur/.tm" "$@"
     else
         echo "${0##*/}: errore: posizionarsi in una sottodirectori di '$HOME/labprog'..." 2>&1
