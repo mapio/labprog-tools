@@ -1,5 +1,29 @@
 #!/bin/bash
 
-unset rgit
+version=v"$1"
+
 ./bin/mkdist
- gh-release create mapio/labprog-tools $1
+
+git tag $version
+git push --tags
+
+github-release release \
+    --user scythe-suite \
+    --repo scythe-server \
+    --tag $version \
+    --name "$2" \
+    --description "$3" \
+
+for file in commands example-site; do
+    github-release upload \
+        --user scythe-suite \
+        --repo scythe-server \
+        --tag $version \
+        --name ${file}.tgz \
+        --file ./release/${file}.tgz
+done
+
+github-release info \
+    --user scythe-suite \
+    --repo scythe-server \
+    --tag $version
