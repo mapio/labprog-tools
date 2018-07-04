@@ -3,3 +3,4 @@
 source labprog-funcs.sh
 
 up_tm ul '^[0-9]+-.+/[^/]*\.(java|sh)$'
+#up_tm ul '^[0-9]+-.+/(((?!TestRunner).+\.java)|.+\.sh)$'
